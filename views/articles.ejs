@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%=title %></title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+
+    <div class="container">
+
+      <%- include("header") -%>
+      <div class="main-welcome-sidebar articles-page">
+        <form class='register-login-article-form' action="/articles" method="post">
+          <div>
+            <div>
+              <h2>Проверь статью</h2>
+            </div>
+            <div>
+              <input class="input" type='text' name='article[title]' placeholder='Заголовок статьи' />
+            </div>
+            <div>
+              <textarea type='text' name='article[content]' placeholder=''></textarea>
+            </div>
+            <div>
+              <input class="check-input-button" type='submit' value='Проверить' />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="main-welcome-action scroll">
+        <% if ( articles == '' ) { %>
+          <h3>У вас нет проверенных статей...</h3>
+        <% }; %>
+        <% articles.forEach(function(article) {%>
+          <div class="article">
+            <h2><%= article.title %></h2>
+            <p><%= chopContent(article.content) %></p>
+            <a class='article-button' href='/articles/article<%= article.id%>'>Читать</a>
+
+            <% function chopContent(article) {
+              var i = 0;
+              var data = article;
+              var content = '';
+              while (i < 25) {
+                if ( !data[i] ) { break; };
+                content += data[i];
+                i++;
+              };
+              content += '...';
+              return content;
+            }; %>
+
+          </div>
+        <% }) %>
+      </div>
+      <%- include("../public/footer.html") -%>
+    </div>
+  </body>
+</html>
